@@ -13,6 +13,17 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * @author Jeroen Roosen 
  */
 public class Player extends Unit {
+    /**
+     *  The max lives of player
+     */
+    private static final int MAX_LIVES = 3;
+
+
+
+    /**
+     * The player's remaining lives
+     */
+    private int lives;
 
     /**
      * The amount of points accumulated by this player.
@@ -53,6 +64,7 @@ public class Player extends Unit {
         this.sprites = spriteMap;
         this.deathSprite = deathAnimation;
         deathSprite.setAnimating(false);
+        this.lives = MAX_LIVES;
     }
 
     /**
@@ -62,6 +74,25 @@ public class Player extends Unit {
      */
     public boolean isAlive() {
         return alive;
+    }
+
+
+    /**
+     *
+     * decreases de player's lives by one
+     */
+    public void loseLife() {
+        if (lives > 0) {
+            lives--;
+        }
+    }
+
+    /**
+     *
+     * @return true if player has remaining live and false otherwise
+     */
+    public boolean hasLivesRemaining() {
+        return lives > 0;
     }
 
     /**
