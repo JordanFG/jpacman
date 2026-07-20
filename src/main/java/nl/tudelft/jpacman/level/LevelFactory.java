@@ -83,7 +83,7 @@ public class LevelFactory {
     public Level createLevel(Board board, List<Ghost> ghosts, List<Square> startPositions) {
 
         // We'll adopt the simple collision map for now.
-        CollisionMap collisionMap = new PlayerCollisions(pointCalculator);
+        CollisionMap collisionMap = new PlayerCollisions(pointCalculator, startPositions);
 
         return new Level(board, ghosts, startPositions, collisionMap);
     }
