@@ -263,13 +263,38 @@ public class Level {
      * Updates the observers about the state of this level.
      */
     private void updateObservers() {
-        if (!isAnyPlayerAlive()) {
+//        if (!isAnyPlayerAlive()) {
+//            for (LevelObserver observer : observers) {
+//                observer.levelLost();
+//            }
+//        }
+//        if (remainingPellets() == 0) {
+//            for (LevelObserver observer : observers) {
+//                observer.levelWon();
+//            }
+//        }
+
+        checkLevelLost();
+        checkLevelWon();
+    }
+
+    /**
+     * Check if plqyer lost the game
+     */
+    private void checkLevelLost() {
+        if (noPlayerHaveLivesRemaining()) {
             for (LevelObserver observer : observers) {
                 observer.levelLost();
             }
         }
-        if (remainingPellets() == 0) {
-            for (LevelObserver observer : observers) {
+    }
+
+    /**
+     * Check if player win the game
+     */
+    private void checkLevelWon() {
+        if(remainingPellets() == 0) {
+            for(LevelObserver observer : observers) {
                 observer.levelWon();
             }
         }
@@ -371,5 +396,14 @@ public class Level {
          * this event is received.
          */
         void levelLost();
+    }
+
+    private boolean noPlayerHaveLivesRemaining() {
+        for (Player player : players) {
+            if (player.hasLivesRemaining()){
+                return false;
+            }
+        }
+        return true;
     }
 }
