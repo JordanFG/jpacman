@@ -1,8 +1,11 @@
 package nl.tudelft.jpacman.level;
 
+import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.npc.Ghost;
 import nl.tudelft.jpacman.points.PointCalculator;
+
+import java.util.List;
 
 /**
  * A simple implementation of a collision map for the JPacman player.
@@ -18,6 +21,7 @@ import nl.tudelft.jpacman.points.PointCalculator;
 public class PlayerCollisions implements CollisionMap {
 
     private PointCalculator pointCalculator;
+    private final List<Square> startSquare;
 
     /**
      * Create a simple player-based collision map, informing the
@@ -26,8 +30,9 @@ public class PlayerCollisions implements CollisionMap {
      * @param pointCalculator
      *             Strategy for calculating points.
      */
-    public PlayerCollisions(PointCalculator pointCalculator) {
+    public PlayerCollisions(PointCalculator pointCalculator, List<Square> startSquares) {
         this.pointCalculator = pointCalculator;
+        this.startSquare = startSquares;
     }
 
     @Override
@@ -75,8 +80,15 @@ public class PlayerCollisions implements CollisionMap {
      */
     public void playerVersusGhost(Player player, Ghost ghost) {
         pointCalculator.collidedWithAGhost(player, ghost);
-        player.setAlive(false);
+        player.loseLife();
         player.setKiller(ghost);
+        player.setAlive(false);
+        if (player.hasLivesRemaining()) {
+            if (!startSquare.isEmpty()) {
+                player.occupy(startSquare.getFirst());
+            }
+            player.setAlive(true);
+        }
     }
 
     /**

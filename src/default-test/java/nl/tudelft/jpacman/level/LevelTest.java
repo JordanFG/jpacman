@@ -1,18 +1,19 @@
 package nl.tudelft.jpacman.level;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import com.google.common.collect.Lists;
+
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.Ghost;
-
-import com.google.common.collect.Lists;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import nl.tudelft.jpacman.sprite.PacManSprites;
 
 /**
  * Tests various aspects of level.
@@ -153,5 +154,29 @@ class LevelTest {
         level.registerPlayer(p2);
         level.registerPlayer(p3);
         verify(p3).occupy(square1);
+    }
+
+    /**
+     * Verifies that a player can lose all lives and have no lives remaining.
+     */
+    @Test
+    void playerLostLife(){
+        PacManSprites sprites = new PacManSprites();
+        Player p = new PlayerFactory(sprites).createPacMan();
+        p.loseLife();
+        p.loseLife();
+        p.loseLife();
+        assertThat(p.hasLivesRemaining()).isFalse();
+    }
+
+    /**
+     * Verifies that a player can lose a life and still have lives remaining.
+     */
+    @Test
+    void playerHasMoreLive(){
+        PacManSprites sprites = new PacManSprites();
+        Player p = new PlayerFactory(sprites).createPacMan();
+        p.loseLife();
+        assertThat(p.hasLivesRemaining()).isTrue();
     }
 }
