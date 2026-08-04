@@ -264,15 +264,15 @@ public class Level {
      */
     private void updateObservers() {
         checkLevelLost();
-        
         checkLevelWon();
     }
 
     /**
-     * Check if plqyer lost the game
+     * Checks whether every player has run out of lives, and if so notifies
+     * the observers that the level has been lost.
      */
     private void checkLevelLost() {
-        if (noPlayerHaveLivesRemaining()) {
+        if (allPlayersOutOfLives()) {
             for (LevelObserver observer : observers) {
                 observer.levelLost();
             }
@@ -280,14 +280,29 @@ public class Level {
     }
 
     /**
-     * Check if player win the game
+     * Checks whether no pellets remain, and if so notifies the observers
+     * that the level has been won.
      */
     private void checkLevelWon() {
-        if(remainingPellets() == 0) {
-            for(LevelObserver observer : observers) {
+        if (remainingPellets() == 0) {
+            for (LevelObserver observer : observers) {
                 observer.levelWon();
             }
         }
+    }
+
+    /**
+     * Returns whether none of the registered players have any lives left.
+     *
+     * @return <code>true</code> iff no player has lives remaining.
+     */
+    private boolean allPlayersOutOfLives() {
+        for (Player player : players) {
+            if (player.hasLivesRemaining()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -386,14 +401,5 @@ public class Level {
          * this event is received.
          */
         void levelLost();
-    }
-
-    private boolean noPlayerHaveLivesRemaining() {
-        for (Player player : players) {
-            if (player.hasLivesRemaining()){
-                return false;
-            }
-        }
-        return true;
     }
 }

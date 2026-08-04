@@ -14,14 +14,12 @@ import nl.tudelft.jpacman.sprite.Sprite;
  */
 public class Player extends Unit {
     /**
-     *  The max lives of player
+     * The number of lives a player starts a game with.
      */
     private static final int MAX_LIVES = 3;
 
-
-
     /**
-     * The player's remaining lives
+     * The player's remaining lives.
      */
     private int lives;
 
@@ -76,10 +74,8 @@ public class Player extends Unit {
         return alive;
     }
 
-
     /**
-     *
-     * decreases de player's lives by one
+     * Decreases the player's remaining lives by one, if any are left.
      */
     public void loseLife() {
         if (lives > 0) {
@@ -88,11 +84,21 @@ public class Player extends Unit {
     }
 
     /**
+     * Returns whether this player still has lives left to respawn with.
      *
-     * @return true if player has remaining live and false otherwise
+     * @return <code>true</code> iff the player has at least one life remaining.
      */
     public boolean hasLivesRemaining() {
         return lives > 0;
+    }
+
+    /**
+     * Returns the number of lives this player currently has left.
+     *
+     * @return The player's remaining lives.
+     */
+    public int getLives() {
+        return lives;
     }
 
     /**

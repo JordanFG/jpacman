@@ -84,11 +84,22 @@ public class PlayerCollisions implements CollisionMap {
         player.setKiller(ghost);
         player.setAlive(false);
         if (player.hasLivesRemaining()) {
-            if (!startSquare.isEmpty()) {
-                player.occupy(startSquare.getFirst());
-            }
-            player.setAlive(true);
+            respawn(player);
         }
+    }
+
+    /**
+     * Sends the player back to a starting square and revives it,
+     * called when the player still has lives left after dying.
+     *
+     * @param player
+     *          The player to respawn.
+     */
+    private void respawn(Player player) {
+        if (!startSquare.isEmpty()) {
+            player.occupy(startSquare.getFirst());
+        }
+        player.setAlive(true);
     }
 
     /**
