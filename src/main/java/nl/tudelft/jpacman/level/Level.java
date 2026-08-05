@@ -268,11 +268,11 @@ public class Level {
     }
 
     /**
-     * Checks whether every player has run out of lives, and if so notifies
-     * the observers that the level has been lost.
+     * Checks whether no player is alive anymore, and if so notifies the
+     * observers that the level has been lost.
      */
     private void checkLevelLost() {
-        if (allPlayersOutOfLives()) {
+        if (!isAnyPlayerAlive()) {
             for (LevelObserver observer : observers) {
                 observer.levelLost();
             }
@@ -289,20 +289,6 @@ public class Level {
                 observer.levelWon();
             }
         }
-    }
-
-    /**
-     * Returns whether none of the registered players have any lives left.
-     *
-     * @return <code>true</code> iff no player has lives remaining.
-     */
-    private boolean allPlayersOutOfLives() {
-        for (Player player : players) {
-            if (player.hasLivesRemaining()) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
