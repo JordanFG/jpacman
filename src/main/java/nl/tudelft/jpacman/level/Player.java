@@ -14,6 +14,16 @@ import nl.tudelft.jpacman.sprite.Sprite;
  */
 public class Player extends Unit {
     /**
+     * The number of lives a player starts a game with.
+     */
+    private static final int MAX_LIVES = 3;
+
+    /**
+     * The player's remaining lives.
+     */
+    private int lives;
+
+    /**
      * The amount of points accumulated by this player.
      */
     private int score;
@@ -52,6 +62,7 @@ public class Player extends Unit {
         this.sprites = spriteMap;
         this.deathSprite = deathAnimation;
         deathSprite.setAnimating(false);
+        this.lives = MAX_LIVES;
     }
 
     /**
@@ -61,6 +72,33 @@ public class Player extends Unit {
      */
     public boolean isAlive() {
         return alive;
+    }
+
+    /**
+     * Decreases the player's remaining lives by one, if any are left.
+     */
+    public void loseLife() {
+        if (lives > 0) {
+            lives--;
+        }
+    }
+
+    /**
+     * Returns whether this player still has lives left to respawn with.
+     *
+     * @return <code>true</code> iff the player has at least one life remaining.
+     */
+    public boolean hasLivesRemaining() {
+        return lives > 0;
+    }
+
+    /**
+     * Returns the number of lives this player currently has left.
+     *
+     * @return The player's remaining lives.
+     */
+    public int getLives() {
+        return lives;
     }
 
     /**
