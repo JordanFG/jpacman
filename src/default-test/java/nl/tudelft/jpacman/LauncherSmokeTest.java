@@ -91,15 +91,9 @@ public class LauncherSmokeTest {
         Thread.sleep(500L);
 
         // we're close to monsters, this will get us killed.
-        int livesBeforeCollision = player.getLives();
         move(game, Direction.WEST, 10);
         move(game, Direction.EAST, 10);
-
-        // colliding with a ghost costs the player a life. Since the player
-        // now has multiple lives, they respawn and stay alive as long as
-        // lives remain, only staying dead once the last life is lost.
-        assertThat(player.getLives()).isLessThan(livesBeforeCollision);
-        assertThat(player.isAlive()).isEqualTo(player.hasLivesRemaining());
+        assertThat(player.isAlive()).isFalse();
 
         game.stop();
         assertThat(game.isInProgress()).isFalse();
