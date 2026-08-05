@@ -1,11 +1,8 @@
 package nl.tudelft.jpacman.level;
 
-import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.npc.Ghost;
 import nl.tudelft.jpacman.points.PointCalculator;
-
-import java.util.List;
 
 /**
  * A simple implementation of a collision map for the JPacman player.
@@ -21,7 +18,6 @@ import java.util.List;
 public class PlayerCollisions implements CollisionMap {
 
     private PointCalculator pointCalculator;
-    private final List<Square> startSquares;
 
     /**
      * Create a simple player-based collision map, informing the
@@ -29,13 +25,9 @@ public class PlayerCollisions implements CollisionMap {
      *
      * @param pointCalculator
      *             Strategy for calculating points.
-     * @param startSquares
-     *             The squares a player respawns on after losing a life,
-     *             while lives remain.
      */
-    public PlayerCollisions(PointCalculator pointCalculator, List<Square> startSquares) {
+    public PlayerCollisions(PointCalculator pointCalculator) {
         this.pointCalculator = pointCalculator;
-        this.startSquares = startSquares;
     }
 
     @Override
@@ -83,26 +75,8 @@ public class PlayerCollisions implements CollisionMap {
      */
     public void playerVersusGhost(Player player, Ghost ghost) {
         pointCalculator.collidedWithAGhost(player, ghost);
-        player.loseLife();
-        player.setKiller(ghost);
         player.setAlive(false);
-        if (player.hasLivesRemaining()) {
-            respawn(player);
-        }
-    }
-
-    /**
-     * Sends the player back to a starting square and revives it,
-     * called when the player still has lives left after dying.
-     *
-     * @param player
-     *          The player to respawn.
-     */
-    private void respawn(Player player) {
-        if (!startSquares.isEmpty()) {
-            player.occupy(startSquares.get(0));
-        }
-        player.setAlive(true);
+        player.setKiller(ghost);
     }
 
     /**
